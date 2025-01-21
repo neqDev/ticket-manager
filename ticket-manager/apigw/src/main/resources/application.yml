@@ -1,0 +1,51 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: api-gateway
+  zipkin:
+    base-url: http://localhost:9411
+  cloud:
+    gateway:
+      routes:
+        - id: customer
+          uri: lb://CUSTOMER
+          predicates:
+            - Path=/customers/v3/api-docs, /api/v1/customers/**
+        - id: event
+          uri: lb://EVENT
+          predicates:
+            - Path=/api/v1/events/**, /api/v1/admin/events/**
+        - id: ticket
+          uri: lb://TICKET
+          predicates:
+            - Path=/api/v1/tickets/**, /api/v1/admin/tickets/**
+        - id: cart
+          uri: lb://CART
+          predicates:
+            - Path=/api/v1/carts/**, /api/v1/admin/carts/**
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8085/realms/ticket-manager-realm
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+    enabled: true
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+
+
+

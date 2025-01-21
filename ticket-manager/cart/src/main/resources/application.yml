@@ -1,0 +1,56 @@
+server:
+  port: 8095
+spring:
+  application:
+    name: cart
+  zipkin:
+    base-url: http://localhost:9411
+  datasource:
+    password: password
+    url: jdbc:postgresql://localhost:51/cart
+    username: admin
+  profiles:
+    active: prod
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+    defer-datasource-initialization: false
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:initData.sql
+  liquibase:
+    change-log: classpath:liquibase-changelog.xml
+    drop-first: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8085/realms/ticket-manager-realm
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
+openapi:
+  info:
+    title: Cart Doc
+    version: 1.0.0
+  service:
+    description: Cart APIs
+    url: http://localhost:8086
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+    enabled: true
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans

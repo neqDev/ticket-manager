@@ -1,0 +1,48 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+spring:
+  application:
+    name: customer
+  datasource:
+    password: password
+    url: jdbc:postgresql://localhost:51/customer
+    username: admin
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8085/realms/ticket-manager-realm
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+  zipkin:
+    base-url: http://localhost:9411
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
+openapi:
+  info:
+    title: Customer Doc
+    version: 1.0.0
+  service:
+    description: Customer APIs
+    url: http://localhost:8080
+
+realm: ticket-manager-realm
+server-url: http://localhost:8085
+client-id: admin-cli
+grand-type: password
+admin-client-secret: 6MnsH2FO7Tx6Iqcyu8vrDVB8HVIGtABX #Uf4JI5OVCqAJ3MmNx0e0MB3JrDsYrPwt
+password: password
+name: admin
+

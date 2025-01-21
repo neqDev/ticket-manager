@@ -1,0 +1,78 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: event
+  zipkin:
+    base-url: http://localhost:9411
+  datasource:
+    password: password
+    url: jdbc:postgresql://localhost:51/event
+    username: admin
+  profiles:
+    active: prod
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+    defer-datasource-initialization: false
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:initData.sql
+  liquibase:
+    change-log: classpath:liquibase-changelog.xml
+    drop-first: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8085/realms/ticket-manager-realm
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
+openapi:
+  info:
+    title: Event Doc
+    version: 1.0.0
+  service:
+    description: Event APIs
+    url: http://localhost:8081
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+    enabled: true
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+
+rabbitmq:
+  exchanges:
+    internal: internal.exchange
+  order-queue:
+    orderCreated: orderCreated.queue
+    reservationCompleted: reservationCompleted.queue
+    reservationRejected: reservationRejected.queue
+    unbookOrder: unbookOrder.queue
+    orderUnbooked: orderUnbooked.queue
+    prepareConcreteTickets: prepareConcreteTickets.queue
+    preparedConcreteTickets: preparedConcreteTickets.queue
+  order-routing-keys:
+    internal-reservationCompleted: internal.reservationCompleted.routing-key
+    internal-reservationRejected: internal.reservationRejected.routing-key
+    internal-unbookOrder: internal.unbookOrder.routing-key
+    internal-orderUnbooked: internal.orderUnbooked.routing-key
+    internal-prepareConcreteTickets: internal.prepareConcreteTickets.routing-key
+    internal-preparedConcreteTickets: internal.preparedConcreteTickets.routing-key
+
+
+

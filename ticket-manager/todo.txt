@@ -1,0 +1,20 @@
+
+
+rozne strategie wyswietlania strony glownej bazując na poprzednich zakupach lub ogladanych eventach
+zrobic tak żeby przy wyciąganiu event nie zaciągały sie od razy event occurances
+logi wszędzie
+image component
+poprwaić eventId w event occurancess
+dodać gdzies cashing
+zniżki
+naprawa routingu w apigw
+
+
+Kamil:
+
+role użytkoników
+zmiana hasła (kolejki i keycloack)
+więcej atrybutów uzywkonika
+dodać opcje zarządzania orderem dla admina plus testy
+sprwadzić proces koszyka i zamówienia pod kątem ceny(cena powinna być jakoś weryfikowana po wysłaniu z front endu)
+
